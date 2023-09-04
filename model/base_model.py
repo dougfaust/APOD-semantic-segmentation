@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-"""Abstract base model"""
+"""
+abstract base model for classifier and segmentation inference
+"""
 
 from abc import ABC, abstractmethod
-
 from utils.config import Config
-
 
 class BaseModel(ABC):
     """Abstract Model class that is inherited to all models"""
@@ -26,4 +25,8 @@ class BaseModel(ABC):
 
     @abstractmethod
     def evaluate(self):
+        pass
+
+    @abstractmethod
+    def create_mask(self):
         pass
