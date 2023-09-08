@@ -11,6 +11,7 @@ CFG = {
     },
     "train": {
         "batch_size": 64,
+        "num_workers": 1,
         "buffer_size": 1000,
         "epoches": 20,
         "val_subsplits": 5,

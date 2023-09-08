@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """PyTorch dataloader"""
 
+import os
 from torchvision import datasets
 from torch.utils.data import DataLoader
 from configs.config import CFG
 
-class DataLoader:
+class ClassifierDataLoader:
 
     def __init__(self):
         """
@@ -20,9 +21,9 @@ class DataLoader:
 
     @staticmethod
     def create_datasets():
-        train_data = datasets.ImageFolder(root=CFG['data']['train_dir'], # target folder of images
-                                          transform=CFG['data']['data_transform'], # transforms to perform on data (images)
-                                          target_transform=None) # transforms to perform on labels (if necessary)
+        train_data = datasets.ImageFolder(root=CFG['data']['train_dir'],
+                                          transform=CFG['data']['data_transform'],
+                                          target_transform=None) # transforms to perform on labels
 
         test_data = datasets.ImageFolder(root=CFG['data']['test_dir'],
                                          transform=CFG['data']['data_transform'])
@@ -32,16 +33,18 @@ class DataLoader:
     @staticmethod
     def create_dataloaders():
 
-        train_data, test_data = create_datasets()
+        train_data, test_data = ClassifierDataLoader.create_datasets()
+
+        num_workers = CFG['train']['num_workers'] if CFG['train']['num_workers'] is not None else os.cpu_count()
 
         train_dataloader = DataLoader(dataset=train_data,
-                                      batch_size=1, # how many samples per batch?
-                                      num_workers=1, # how many subprocesses to use for data loading? (higher = more)
-                                      shuffle=True) # shuffle the data?
+                                      batch_size=CFG['train']['batch_size'],
+                                      num_workers=num_workers,
+                                      shuffle=True)
 
         test_dataloader = DataLoader(dataset=test_data,
-                                     batch_size=1,
-                                     num_workers=1,
+                                     batch_size=CFG['train']['batch_size'],
+                                     num_workers=num_workers,
                                      shuffle=False)
 
         return train_dataloader, test_dataloader
