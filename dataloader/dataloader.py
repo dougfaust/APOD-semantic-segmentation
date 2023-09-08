@@ -36,6 +36,7 @@ class ClassifierDataLoader:
         train_data, test_data = ClassifierDataLoader.create_datasets()
 
         num_workers = CFG['train']['num_workers'] if CFG['train']['num_workers'] is not None else os.cpu_count()
+        num_workers = min(num_workers, os.cpu_count()) # check to ensure config param is compatible with hardware
 
         train_dataloader = DataLoader(dataset=train_data,
                                       batch_size=CFG['train']['batch_size'],
