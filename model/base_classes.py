@@ -5,7 +5,7 @@ abstract base model for classifier and segmentation inference
 from abc import ABC, abstractmethod
 from utils.config import Config
 
-class BaseModel(ABC):
+class BaseClassifier(ABC):
     """Abstract Model class that is inherited to all models"""
 
     def __init__(self, cfg):
@@ -27,6 +27,12 @@ class BaseModel(ABC):
     def evaluate(self):
         pass
 
+class BaseSemanticMask(ABC):
+    """Abstract class to create semantic mask model"""
+
+    def __init__(self, classifier):
+        self.classifier=classifier # trained classifier model
+
     @abstractmethod
-    def create_mask(self):
+    def create_mask(self, image):
         pass
