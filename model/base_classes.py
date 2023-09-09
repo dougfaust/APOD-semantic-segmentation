@@ -9,7 +9,7 @@ class BaseClassifier(ABC):
     """Abstract Model class that is inherited to all models"""
 
     def __init__(self, cfg):
-        self.config = Config.from_json(cfg)
+        pass
 
     @abstractmethod
     def load_data(self):
